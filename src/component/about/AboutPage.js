@@ -1,7 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
 
-const AboutPage = (props) => {
+const AboutPage = () => {
   return (
     <div>
       <h2>About</h2>
@@ -9,7 +8,7 @@ const AboutPage = (props) => {
         This app use React,Redux,React Router and many other helpful librarise
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default AboutPage
+export default AboutPage;
