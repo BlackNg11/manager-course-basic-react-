@@ -15,7 +15,7 @@ export function loadCourseSucces(courses) {
   };
 }
 
-export function loadCourse(course) {
+export function loadCourse() {
   return function(dispatch) {
     return courseApi
       .getCourses()

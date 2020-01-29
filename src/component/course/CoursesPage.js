@@ -81,7 +81,7 @@ this.props.createCourse(this.state.course);
 
 C3:Goi ham ho tro trong redux
 import { bindActionCreators } from "redux";
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(courseAction, dispatch)
   };

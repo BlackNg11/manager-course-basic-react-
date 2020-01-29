@@ -8,7 +8,7 @@ export function loadAuthorsSucces(authers) {
   };
 }
 
-export function loadAuthors(authers) {
+export function loadAuthors() {
   return function(dispatch) {
     return authorApi
       .getAuthors()
