@@ -1,17 +1,24 @@
 import * as types from "./actionTypes";
 import * as courseApi from "../../api/courseApi";
 
-export function createCourse(course) {
-  return {
-    type: types.CREATE_COURSE,
-    course
-  };
-}
-
 export function loadCourseSucces(courses) {
   return {
     type: types.LOAD_COURSE_SUCCESS,
     courses
+  };
+}
+
+export function createCourseSucces(course) {
+  return {
+    type: types.CREATE_COURSE_SUCCESS,
+    course
+  };
+}
+
+export function updateCourseSucces(course) {
+  return {
+    type: types.UPDATE_COURSE_SUCCESS,
+    course
   };
 }
 
@@ -21,6 +28,21 @@ export function loadCourse() {
       .getCourses()
       .then(course => {
         dispatch(loadCourseSucces(course));
+      })
+      .catch(err => {
+        throw err;
+      });
+  };
+}
+
+export function saveCourse(course) {
+  return function(dispatch, getState) {
+    return courseApi
+      .saveCourse(course)
+      .then(saveCourses => {
+        course.id
+          ? dispatch(updateCourseSucces(saveCourses))
+          : dispatch(createCourseSucces(saveCourses));
       })
       .catch(err => {
         throw err;

@@ -2,12 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import * as courseAction from "../../redux/action/courseAction";
 import * as authorAction from "../../redux/action/authorAction";
+import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import CourseList from "./CourseList";
 //import { bindActionCreators } from "redux";
 
 class CoursePage extends React.Component {
+  state = {
+    redirectToAddCoursePage: false
+  };
+
   componentDidMount() {
     if (this.props.courses.length === 0) {
       this.props.loadCourse().catch(err => {
@@ -25,7 +30,15 @@ class CoursePage extends React.Component {
   render() {
     return (
       <>
+        {this.state.redirectToAddCoursePage && <Redirect to="/course" />}
         <h2>Course</h2>
+        <button
+          style={{ marginBottom: 20 }}
+          className="btn btn-primary add-course"
+          onClick={() => this.setState({ redirectToAddCoursePage: true })}
+        >
+          Add Course
+        </button>
         <CourseList courses={this.props.courses} />
       </>
     );
@@ -57,7 +70,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  createCourse: courseAction.createCourse,
   loadCourse: courseAction.loadCourse,
   loadAuthor: authorAction.loadAuthors
 };
