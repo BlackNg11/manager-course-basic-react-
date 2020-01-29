@@ -5,37 +5,20 @@ import PropTypes from "prop-types";
 //import { bindActionCreators } from "redux";
 
 class CoursePage extends React.Component {
-  state = {
-    course: {
-      title: ""
-    }
-  };
-
-  handleChange = e => {
-    const course = { ...this.state.course, title: e.target.value };
-    this.setState({ course });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.createCourse(this.state.course);
-  };
+  componentDidMount() {
+    this.props.loadCourse().catch(err => {
+      alert("Loading fail" + err);
+    });
+  }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <>
         <h2>Course</h2>
-        <h3>Add Course</h3>
-        <input
-          type="text"
-          onChange={this.handleChange}
-          value={this.state.course.title}
-        />
-        <input type="submit" value="save" />
         {this.props.courses.map(course => (
           <div key={course.title}>{course.title}</div>
         ))}
-      </form>
+      </>
     );
   }
 }
@@ -52,7 +35,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  createCourse: courseAction.createCourse
+  createCourse: courseAction.createCourse,
+  loadCourse: courseAction.loadCourse
 };
 
 export default connect(
