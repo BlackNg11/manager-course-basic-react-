@@ -46,12 +46,39 @@ function ManageCoursePage({
     }));
   }
 
+  function formIsValid() {
+    const { title, authorId, category } = course;
+    const errors = {};
+
+    if (!title) {
+      errors.title = "Title is required";
+    }
+    if (!authorId) {
+      errors.authorId = "Author is required";
+    }
+    if (!title) {
+      errors.category = "Category is required";
+    }
+
+    setErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  }
+
   function handleSave(event) {
     event.preventDefault();
-    saveCourse(course).then(() => {
-      toast.success("Course saved");
-      history.push("/courses");
-    });
+    if (!formIsValid()) {
+      return;
+    }
+    saveCourse(course)
+      .then(() => {
+        toast.success("Course saved");
+        history.push("/courses");
+      })
+      .catch(err => {
+        setSaving(false);
+        setErrors({ onSave: err.message });
+      });
   }
 
   return authors.length === 0 || courses.length === 0 ? (
