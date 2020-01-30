@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import CourseList from "./CourseList";
+import Spinner from "../common/Spinner";
 //import { bindActionCreators } from "redux";
 
 class CoursePage extends React.Component {
@@ -32,14 +33,20 @@ class CoursePage extends React.Component {
       <>
         {this.state.redirectToAddCoursePage && <Redirect to="/course" />}
         <h2>Course</h2>
-        <button
-          style={{ marginBottom: 20 }}
-          className="btn btn-primary add-course"
-          onClick={() => this.setState({ redirectToAddCoursePage: true })}
-        >
-          Add Course
-        </button>
-        <CourseList courses={this.props.courses} />
+        {this.props.loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <button
+              style={{ marginBottom: 20 }}
+              className="btn btn-primary add-course"
+              onClick={() => this.setState({ redirectToAddCoursePage: true })}
+            >
+              Add Course
+            </button>
+            <CourseList courses={this.props.courses} />
+          </>
+        )}
       </>
     );
   }
@@ -49,7 +56,8 @@ CoursePage.propTypes = {
   loadCourse: PropTypes.func.isRequired,
   loadAuthor: PropTypes.func.isRequired,
   courses: PropTypes.array.isRequired,
-  author: PropTypes.array.isRequired
+  author: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
@@ -65,7 +73,8 @@ const mapStateToProps = state => {
               ).name
             };
           }),
-    author: state.author
+    author: state.author,
+    loading: state.apiStatusReducer > 0
   };
 };
 
